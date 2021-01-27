@@ -1,6 +1,6 @@
 package by.ralovets.epamcourse.client.dao.impl;
 
-import by.ralovets.epamcourse.client.dao.DAOException;
+import by.ralovets.epamcourse.client.dao.exception.DAOException;
 import by.ralovets.epamcourse.client.dao.TextDAO;
 
 import java.io.BufferedReader;
@@ -29,6 +29,7 @@ public class FileTextDAO implements TextDAO {
         } catch (FileNotFoundException e) {
             throw new DAOException();
         }
+
         return text;
     }
 }
