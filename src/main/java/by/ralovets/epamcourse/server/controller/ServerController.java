@@ -1,29 +1,27 @@
 package by.ralovets.epamcourse.server.controller;
 
-import by.ralovets.epamcourse.common.beans.request.Request;
-import by.ralovets.epamcourse.server.ProcessingThread;
 import by.ralovets.epamcourse.server.controller.exception.ServerControllerException;
 import by.ralovets.epamcourse.server.service.command.CommandProvider;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServerController {
 
+    Logger log = Logger.getLogger(ServerController.class);
+
     private final CommandProvider commandProvider = new CommandProvider();
-    private final List<Thread> processingThreads = new ArrayList<>();
     private final ServerSocket serverSocket;
 
     public ServerController(int port) throws ServerControllerException {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            // ToDo: Logger
+            log.error("Server: Не удалось создать ServerSocket");
             throw new ServerControllerException();
         }
     }
@@ -32,21 +30,19 @@ public class ServerController {
         try {
             while (true) {
                 Socket connection = serverSocket.accept();
-
-                ObjectInputStream in = new ObjectInputStream(connection.getInputStream());
-                ObjectOutputStream out = new ObjectOutputStream(connection.getOutputStream());
-
+                log.error("Server: New client asked for connection");
                 try {
-                    Request request = (Request) in.readObject();
-                    Thread thread = new ProcessingThread(request, out);
-                    processingThreads.add(thread);
-                    thread.start();
+//                    Thread thread = new ProcessingThread(connection);
+//                    thread.start();
+                    new ObjectInputStream(connection.getInputStream()).readObject();
+                    new ObjectOutputStream(connection.getOutputStream()).writeObject("Hahhaha");
                 } catch (Exception e) {
-                    // ToDo: Logger
+                    log.error("Server: Exception was thrown when server proceed connection");
+                    throw new Exception();
                 }
             }
-        } catch (Exception ignored) {
-            // ToDo: Logger
+        } catch (Exception e) {
+            log.error("Server: Exception was thrown when server listened connections");
         }
     }
 
@@ -54,6 +50,7 @@ public class ServerController {
         try {
             serverSocket.close();
         } catch (IOException ignored) {
+            log.error("Server: Error while closing server socket");
         }
     }
 }

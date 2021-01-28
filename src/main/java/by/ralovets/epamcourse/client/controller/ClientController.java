@@ -3,7 +3,6 @@ package by.ralovets.epamcourse.client.controller;
 import by.ralovets.epamcourse.client.controller.exception.ControllerException;
 import by.ralovets.epamcourse.client.service.ServiceFactory;
 import by.ralovets.epamcourse.client.service.exception.ServiceException;
-import by.ralovets.epamcourse.common.CommandIdentificator;
 import by.ralovets.epamcourse.common.beans.request.Request;
 import by.ralovets.epamcourse.common.beans.text.Text;
 
@@ -12,20 +11,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ClientController {
 
-    private final ObjectInputStream in;
+    private ObjectInputStream in;
     private final ObjectOutputStream out;
-    private Socket clientSocket;
+    private final Socket clientSocket;
 
     public ClientController(String host, int port) throws ControllerException {
 
         try {
             clientSocket = new Socket(host, port);
-            in = new ObjectInputStream(clientSocket.getInputStream());
             out = new ObjectOutputStream(clientSocket.getOutputStream());
         } catch (IOException e) {
             throw new ControllerException();
@@ -57,6 +54,7 @@ public class ClientController {
         String response;
 
         try {
+            in = new ObjectInputStream(clientSocket.getInputStream());
             return (String) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new ControllerException("Ошибка при плолучении ответа");
@@ -67,7 +65,7 @@ public class ClientController {
         try {
             clientSocket.close();
         } catch (IOException e) {
-            // ToDo: Logger
+            System.out.println("stototot");
         }
     }
 }
