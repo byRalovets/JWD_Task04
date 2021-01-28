@@ -2,11 +2,13 @@ package by.ralovets.epamcourse.server.service.command;
 
 import by.ralovets.epamcourse.common.CommandIdentifier;
 import by.ralovets.epamcourse.server.service.command.impl.*;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 
 public class CommandProvider {
 
+    private static final Logger log = Logger.getLogger(CommandProvider.class);
     private static final CommandProvider instance = new CommandProvider();
 
     public static CommandProvider getInstance() {
@@ -35,6 +37,7 @@ public class CommandProvider {
     }
 
     public Command getCommand(String commandId) {
+        log.trace("Server: Trying to recognize command from request");
         return commands.get(commandId);
     }
 }

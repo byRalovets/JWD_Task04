@@ -12,9 +12,10 @@ public class Application {
         ServerController serverController = null;
 
         try {
-            log.error("Server: Trying to create ServerController");
+            log.trace("Server: Trying to create ServerController");
             serverController = new ServerController(1234);
-            log.error("Server: Trying to run listening socket");
+            log.trace("Server: ServerController was created");
+            log.trace("Server: Trying to run listening socket");
             serverController.startListening();
         } catch (ServerControllerException e) {
             log.error("Server: Server work was stopped");

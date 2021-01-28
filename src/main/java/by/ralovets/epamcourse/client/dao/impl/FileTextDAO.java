@@ -21,7 +21,7 @@ public class FileTextDAO implements TextDAO {
         if (text != null) return text;
 
         try {
-            File f = new File("programming.txt");
+            File f = new File("src\\main\\resources\\programming.txt");
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
 

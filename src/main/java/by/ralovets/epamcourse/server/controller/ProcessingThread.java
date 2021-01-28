@@ -16,6 +16,7 @@ public class ProcessingThread extends Thread {
 
     public ProcessingThread(Socket connection) {
         this.connection = connection;
+        log.trace("Server: Processing thread was created");
     }
 
     @Override
@@ -25,26 +26,27 @@ public class ProcessingThread extends Thread {
         ObjectOutputStream out;
 
         try {
-            log.trace("Server: Trying to get in/out streams");
-            in = new ObjectInputStream(connection.getInputStream());
+            log.trace("Server: Trying to get output stream");
             out = new ObjectOutputStream(connection.getOutputStream());
         } catch (IOException e) {
-            log.trace("Server: I/O error was occured");
+            log.trace("Server: I/O error was occured while trying to open output stream");
             return;
         }
 
         Request request;
         try {
-            log.trace("Server: Trying to get request");
+            log.trace("Server: Trying to get input stream");
+            in = new ObjectInputStream(connection.getInputStream());
+            log.trace("Server: Trying to read Request object from input stream");
             request = (Request) in.readObject();
-            log.trace("Server: Trying to calculate response");
+            log.trace("Server: Trying to generate response");
             String response = CommandProvider.getInstance()
                     .getCommand(request.getCommandId())
                     .execute(request.getText(), request.getParams());
             log.trace("Server: Trying to send response");
             out.writeObject(response);
         } catch (IOException | ClassNotFoundException e) {
-            log.error("Server: An error was occured while get/calc/send req/resp");
+            log.error("Server: An error was occured! pzdc");
         }
     }
 }

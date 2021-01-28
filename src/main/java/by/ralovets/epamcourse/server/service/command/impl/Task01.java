@@ -16,19 +16,19 @@ public class Task01 implements Command {
     @Override
     public String execute(Text text, Object additional) {
         log.trace("Server: Task01 was started");
-//        List<Word> uniqueWords = getUniqueWords(getWords(text));
-//
-//        log.trace("Server: Calculating maxMatches count");
-//        long maxMatches = 0;
-//        for (Word word : uniqueWords) {
-//            long matches = sentencesContainsWordCount(getSentences(text), word);
-//            if (matches > maxMatches) {
-//                maxMatches = matches;
-//            }
-//        }
+        List<Word> uniqueWords = getUniqueWords(getWords(text));
+
+        log.trace("Server: Calculating maxMatches count");
+        long maxMatches = 0;
+        for (Word word : uniqueWords) {
+            long matches = sentencesContainsWordCount(getSentences(text), word);
+            if (matches > maxMatches) {
+                maxMatches = matches;
+            }
+        }
 
         log.trace("Server: Returning maxMatches count");
-//        return maxMatches + "";
-        return "10";
+        return maxMatches + "";
+//        return "10";
     }
 }

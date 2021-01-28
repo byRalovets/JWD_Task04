@@ -11,27 +11,30 @@ public class Application {
 
     public static void main(String[] args) throws InterruptedException {
 
-        log.trace("Client: Main started");
+        log.trace("Main method was started");
 
         ClientController clientController;
         try {
-            log.trace("Client: Trying to connect to server");
+            log.trace("Trying to create ClientController");
             clientController = new ClientController("127.0.0.1", 1234);
         } catch (ControllerException e) {
-            log.error("Client: Connection to server was failed");
+            log.error("Creation ClientController was failed");
             System.out.println("Не удалось подключиться к серверу");
             return;
         }
 
         String response;
         try {
-            response = clientController.doRequest(CommandIdentifier.TASK01, null);
+            log.trace("Trying to make request");
+            response = clientController.doRequest(CommandIdentifier.TASK03, null);
+            log.trace("Request was made successfully. Response was received");
             System.out.println(response);
         } catch (ControllerException e) {
-            // ToDo: Logger
+            log.trace("Trying to make request");
         } finally {
-            // ToDo: Logger
+            log.trace("Finalizing client controller");
             clientController.stop();
+            log.trace("Client controller was finalized");
         }
     }
 }

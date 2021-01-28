@@ -20,6 +20,7 @@ public class ServerController {
     public ServerController(int port) throws ServerControllerException {
         try {
             serverSocket = new ServerSocket(port);
+            log.trace("Server: Listening socket was opened");
         } catch (IOException e) {
             log.error("Server: Не удалось создать ServerSocket");
             throw new ServerControllerException();
@@ -30,12 +31,13 @@ public class ServerController {
         try {
             while (true) {
                 Socket connection = serverSocket.accept();
-                log.error("Server: New client asked for connection");
+                log.trace("Server: New request for connection");
                 try {
-//                    Thread thread = new ProcessingThread(connection);
-//                    thread.start();
-                    new ObjectInputStream(connection.getInputStream()).readObject();
-                    new ObjectOutputStream(connection.getOutputStream()).writeObject("Hahhaha");
+                    log.trace("Server: Trying to process connection in separate thread");
+                    Thread thread = new ProcessingThread(connection);
+                    thread.start();
+//                    new ObjectInputStream(connection.getInputStream()).readObject();
+//                    new ObjectOutputStream(connection.getOutputStream()).writeObject("Hahhaha");
                 } catch (Exception e) {
                     log.error("Server: Exception was thrown when server proceed connection");
                     throw new Exception();
