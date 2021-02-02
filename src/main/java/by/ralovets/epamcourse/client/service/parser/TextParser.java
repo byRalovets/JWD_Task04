@@ -1,5 +1,6 @@
 package by.ralovets.epamcourse.client.service.parser;
 
+import by.ralovets.epamcourse.client.service.parser.util.Patterns;
 import by.ralovets.epamcourse.common.beans.text.Text;
 import by.ralovets.epamcourse.common.beans.text.element.TextElement;
 import by.ralovets.epamcourse.common.beans.text.element.impl.code.BlockOfCode;
@@ -11,9 +12,6 @@ import java.util.regex.Pattern;
 
 public class TextParser {
 
-    public final static Pattern textElementPattern
-            = Pattern.compile("(?s)(<code>.*?</code>)|([^\\s.?!].+?[.?!]+)");
-
     private TextParser() {
     }
 
@@ -22,7 +20,7 @@ public class TextParser {
         List<TextElement> textElements = new ArrayList<>();
 
         for (String s : splitIntoTextElements(sourceText)) {
-            if (s.startsWith("<code>")) {
+            if (Patterns.getInstance().getBlockOfCodePattern().matcher(s).matches()) {
                 textElements.add(new BlockOfCode(s));
             } else {
                 textElements.add(SentenceParser.parseSentence(s));
@@ -34,7 +32,7 @@ public class TextParser {
     }
 
     private static List<String> splitIntoTextElements(String s) {
-        Matcher matcher = textElementPattern.matcher(s);
+        Matcher matcher = Patterns.getInstance().getTextElementPattern().matcher(s);
 
         List<String> textElements = new ArrayList<>();
         while (matcher.find()) {

@@ -1,5 +1,6 @@
 package by.ralovets.epamcourse.client.service.parser;
 
+import by.ralovets.epamcourse.client.service.parser.util.Patterns;
 import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.Sentence;
 import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.element.SentenceElement;
 import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.element.impl.PunctuationMark;
@@ -12,11 +13,6 @@ import java.util.regex.Pattern;
 
 public class SentenceParser {
 
-    public final static Pattern sentenceElementPattern
-            = Pattern.compile("([,;:?!.-]+)|([^\\s,;:?!.-]*)");
-    public final static Pattern punctuationMarkPattern
-            = Pattern.compile("[,;:?!.-]+");
-
     private SentenceParser() {
     }
 
@@ -25,7 +21,7 @@ public class SentenceParser {
         List<SentenceElement> sentenceElements = new ArrayList<>();
 
         for (String s : splitIntoSentenceElements(sourceText)) {
-            if (s.matches("[,;:?!.-]+")) {
+            if (Patterns.getInstance().getPunctuationMarkPattern().matcher(s).matches()) {
                 sentenceElements.add(new PunctuationMark(s));
             } else {
                 sentenceElements.add(new Word(s));
@@ -37,7 +33,10 @@ public class SentenceParser {
     }
 
     private static List<String> splitIntoSentenceElements(String s) {
-        Matcher matcher = sentenceElementPattern.matcher(s);
+        Matcher matcher = Patterns.getInstance().getSentenceElementPattern().matcher(s);
+
+        Pattern p = Pattern.compile("([,;:«»()?!.-])|([^\\s,;:«»()?!.-]*)");
+        matcher = p.matcher(s);
 
         List<String> sentenceElements = new ArrayList<>();
         while (matcher.find()) {

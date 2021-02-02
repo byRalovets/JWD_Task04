@@ -79,7 +79,7 @@ public class ClientController {
             log.trace("Trying to close InputStream");
             in.close();
             log.trace("InputStream was closed");
-            return response;
+            return "[\"response\":\"" + response + "\"]";
         } catch (IOException | ClassNotFoundException e) {
             log.error("An error occured while receiving response");
             throw new ControllerException("Ошибка при плолучении ответа");

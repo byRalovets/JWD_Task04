@@ -36,8 +36,6 @@ public class ServerController {
                     log.trace("Server: Trying to process connection in separate thread");
                     Thread thread = new ProcessingThread(connection);
                     thread.start();
-//                    new ObjectInputStream(connection.getInputStream()).readObject();
-//                    new ObjectOutputStream(connection.getOutputStream()).writeObject("Hahhaha");
                 } catch (Exception e) {
                     log.error("Server: Exception was thrown when server proceed connection");
                     throw new Exception();

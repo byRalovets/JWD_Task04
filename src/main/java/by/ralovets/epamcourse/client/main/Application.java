@@ -26,7 +26,7 @@ public class Application {
         String response;
         try {
             log.trace("Trying to make request");
-            response = clientController.doRequest(CommandIdentifier.TASK03, null);
+            response = clientController.doRequest(CommandIdentifier.TASK07, null);
             log.trace("Request was made successfully. Response was received");
             System.out.println(response);
         } catch (ControllerException e) {

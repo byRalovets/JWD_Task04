@@ -6,6 +6,7 @@ import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.Sentence;
 import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.element.impl.PunctuationMark;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static by.ralovets.epamcourse.server.service.command.util.TextUtils.*;
@@ -14,7 +15,7 @@ public class Task04 implements Command {
 
     @Override
     public String execute(Text text, Object additional) {
-        int length = 5; // ToDo: len is a fun arg
+        int length = (Integer) additional;
 
         final PunctuationMark questionMark = new PunctuationMark();
         questionMark.setValue("?");
@@ -26,6 +27,7 @@ public class Task04 implements Command {
         return getWords(questionSentences).stream()
                 .filter(w -> w.getContent().length() == length)
                 .distinct()
-                .collect(Collectors.toList()).toString();
+                .map(Objects::toString)
+                .collect(Collectors.joining(" "));
     }
 }

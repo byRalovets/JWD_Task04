@@ -1,6 +1,6 @@
 package by.ralovets.epamcourse.client.dao;
 
-import by.ralovets.epamcourse.client.dao.impl.FileTextDAO;
+import by.ralovets.epamcourse.client.dao.impl.file.FileTextDAO;
 
 public class DAOFactory {
 

@@ -6,9 +6,7 @@ import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.Sentence;
 import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.element.SentenceElement;
 import by.ralovets.epamcourse.common.beans.text.element.impl.sentence.element.impl.Word;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TextUtils {
@@ -31,6 +29,16 @@ public class TextUtils {
         }
 
         return words;
+    }
+
+    public static int getCharEntryCount(char c, Word w) {
+        int counter = 0;
+
+        for (int i = 0; i < w.getContent().length(); i++) {
+            if (w.getContent().charAt(i) == c) counter++;
+        }
+
+        return counter;
     }
 
     public static List<Word> getUniqueWords(List<Word> words) {
@@ -101,6 +109,19 @@ public class TextUtils {
 
     public static double getVowelsPercent(Word w) {
         return 1.0 * getVowelsCount(w) / w.getContent().length();
+    }
+
+    public static boolean startsWithConsonant(Word word) {
+        String wordContent = word.getContent();
+        boolean isVowel = false;
+
+        for (char vowelLetter : VOWEL_LETTERS) {
+            isVowel = wordContent.charAt(0) == vowelLetter;
+
+            if (isVowel) break;
+        }
+
+        return !isVowel;
     }
 
     public static int getCharacterCount(Word word, char character) {
